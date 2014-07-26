@@ -56,6 +56,7 @@ local function lookup (context, name)
                 return k, i - 1
             end
         end
+        k = k + 1
     end
     return nil
 end
