@@ -24,23 +24,23 @@ for i, token in ipairs(tokens) do
     else
         table.insert(current, token)
     end
-    print(token)
 end
 local root = current[1]
 
-local function print_tree (n)
-    ident = ident or 0
+local function print_tree (n, f)
     if type(n) == "table" then
-        io.write "("
+        f:write "("
         for i, v in ipairs(n) do
-            print_tree(v, ident+2)
-            io.write " "
+            print_tree(v, f)
+            f:write " "
         end
-        io.write ")"
+        f:write ")"
     else
-        io.write(tostring(n))
+        f:write(tostring(n))
     end
 end
+print_tree(root, io.stderr)
+io.stderr:write "\n"
 
 local labelid = 0
 local function new_label ()
@@ -145,8 +145,6 @@ local function tree_to_ops (n, context)
     return ops, fns
 end
 
-print_tree(root)
-io.write"\n"
 ops, fns = tree_to_ops(root, {})
 for i, v in ipairs(ops) do
     print(v)
