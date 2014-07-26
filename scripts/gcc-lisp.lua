@@ -42,6 +42,12 @@ local function print_tree (n)
     end
 end
 
+local labelid = 0
+local function new_label ()
+    labelid = labelid + 1
+    return "L" .. tostring(labelid)
+end
+
 local function tree_to_ops (n)
     local ops, fns = {}, {}
     if type(n) == "table" then
@@ -52,11 +58,25 @@ local function tree_to_ops (n)
                 table.extend(ops, _ops)
                 table.extend(fns, _fns)
             end
-            table.insert(ops, OPS[head])
+            table.insert(ops, "  " .. OPS[head])
+        elseif head == "if" then
+            local b = table.remove(n, 1)
+            local opsb, fnsb = tree_to_ops(b)
+            table.extend(ops, opsb)
+            table.extend(fns, fnsb)
+            local labels = {new_label(), new_label()}
+            for i, v in ipairs(n) do
+                local _ops, _fns = tree_to_ops(v)
+                table.insert(_ops, 1, labels[i] .. ":")
+                table.insert(_ops, "  JOIN")
+                table.extend(fns, _ops)
+                table.extend(fns, _fns)
+            end
+            table.insert(ops, "  SEL " .. labels[1] .. " " .. labels[2])
         end
     else
         if string.match(n, "^%d+$") ~= nil then
-            table.insert(ops, "LDC " .. n)
+            table.insert(ops, "  LDC " .. n)
         end
     end
     return ops, fns
@@ -64,6 +84,11 @@ end
 
 print_tree(root)
 io.write"\n"
-for i, v in ipairs(tree_to_ops(root)) do
-print(v)
+ops, fns = tree_to_ops(root)
+for i, v in ipairs(ops) do
+    print(v)
+end
+print"  RTN"
+for i, v in ipairs(fns) do
+    print(v)
 end
