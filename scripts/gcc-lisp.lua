@@ -2,7 +2,7 @@
 local re = require "re"
 
 local OPS = { add = "ADD", sub = "SUB", mul = "MUL", div = "DIV",
-    cons = "CONS", car = "CAR", cdr = "CDR",
+    cons = "CONS", car = "CAR", cdr = "CDR", atom = "ATOM",
     eq = "CEQ", gt = "CGT", gte = "CGTE" }
 
 local pat = "({%w+} / {[()]} / .)*"
@@ -153,6 +153,12 @@ local function tree_to_ops (n, context)
             table.insert(ops, "  LDC 0")
             for i, v in ipairs(n) do
                 table.insert(ops, "  CONS")
+            end
+        elseif head == "seq" then
+            for i, v in ipairs(n) do
+                local _ops, _fns = tree_to_ops(v, context)
+                table.extend(ops, _ops)
+                table.extend(fns, _fns)
             end
         else
             error("unknown head: " .. head)
