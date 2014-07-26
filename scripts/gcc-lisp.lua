@@ -2,7 +2,8 @@
 local re = require "re"
 
 local OPS = { add = "ADD", sub = "SUB", mul = "MUL", div = "DIV",
-    cons = "CONS", car = "CAR", cdr = "CDR" }
+    cons = "CONS", car = "CAR", cdr = "CDR",
+    eq = "CEQ", gt = "CGT", gte = "CGTE" }
 
 local pat = "({%w+} / {[()]} / .)*"
 local tokens = table.pack(re.match(io.read("*all"), pat))
