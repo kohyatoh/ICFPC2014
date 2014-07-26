@@ -5,7 +5,7 @@ local OPS = { add = "ADD", sub = "SUB", mul = "MUL", div = "DIV",
     cons = "CONS", car = "CAR", cdr = "CDR", atom = "ATOM",
     eq = "CEQ", gt = "CGT", gte = "CGTE" }
 
-local pat = "({%w+} / {[()]} / .)*"
+local pat = "({[A-Za-z0-9_-]+} / {[()]} / .)*"
 local tokens = table.pack(re.match(io.read("*all"), pat))
 
 function table.extend(list, other)
@@ -37,7 +37,7 @@ local function print_tree (n, f)
         end
         f:write ")"
     else
-        f:write(tostring(n))
+        f:write(n)
     end
 end
 print_tree(root, io.stderr)
@@ -183,7 +183,7 @@ local function tree_to_ops (n, context)
             error("unknown head: " .. head)
         end
     else
-        if string.match(n, "^%d+$") ~= nil then
+        if string.match(n, "^[-]?%d+$") ~= nil then
             table.insert(ops, "  LDC " .. n)
         else
             local a, b = lookup(context, n)

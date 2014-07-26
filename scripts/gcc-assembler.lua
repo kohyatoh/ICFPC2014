@@ -35,7 +35,7 @@ for k, v in ipairs(lines) do
     if string.match(line, "^%s*$") == nil then
         -- replace symbols
         local reg = {}
-        for w in string.gmatch(line, "%w+") do
+        for w in string.gmatch(line, "[A-Za-z0-9_-]+") do
             if labels[w] ~= nil then
                 -- replace labels
                 w = tostring(labels[w])
