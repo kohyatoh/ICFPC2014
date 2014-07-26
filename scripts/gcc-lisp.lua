@@ -144,6 +144,8 @@ local function tree_to_ops (n, context)
                 table.extend(fns, _fns)
             end
             table.insert(ops, string.format("  ST %d %d", a, b))
+        else
+            error("unknown head: " .. head)
         end
     else
         if string.match(n, "^%d+$") ~= nil then
