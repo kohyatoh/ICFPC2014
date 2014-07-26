@@ -1,0 +1,1 @@
+lua code/gcc-lisp.lua < code/ai.lisp | lua code/gcc-assembler.lua > solution/lambdaman.gcc
