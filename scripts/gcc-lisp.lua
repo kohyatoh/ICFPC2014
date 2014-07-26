@@ -179,6 +179,13 @@ local function tree_to_ops (n, context)
             table.insert(ops, "  LDC 0")
             table.insert(ops, "  TSEL 0 " .. beg_label)
             table.insert(ops, end_label .. ":")
+        elseif head == "debug" then
+            for i, v in ipairs(n) do
+                local _ops, _fns = tree_to_ops(v, context)
+                table.extend(ops, _ops)
+                table.extend(fns, _fns)
+            end
+            table.insert(ops, "  DBUG")
         else
             error("unknown head: " .. head)
         end
