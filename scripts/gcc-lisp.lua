@@ -107,6 +107,29 @@ local function tree_to_ops (n, context)
             table.insert(ops, "  LDF " .. label)
             table.insert(ops, "  AP " .. tostring(#names))
             table.remove(context)
+        elseif head == "lambda" then
+            local names = table.remove(n, 1)
+            table.insert(context, names)
+            local label = new_label()
+            local body = { label .. ":" }
+            for i, v in ipairs(n) do
+                local _ops, _fns = tree_to_ops(v, context)
+                table.extend(body, _ops)
+                table.extend(fns, _fns)
+            end
+            table.insert(body, "  RTN")
+            table.extend(fns, body)
+            table.insert(ops, "  LDF " .. label)
+            table.remove(context)
+        elseif head == "call" then
+            local f = table.remove(n, 1)
+            table.insert(n, f)
+            for i, v in ipairs(n) do
+                local _ops, _fns = tree_to_ops(v, context)
+                table.extend(ops, _ops)
+                table.extend(fns, _fns)
+            end
+            table.insert(ops, "  AP " .. tostring(#n - 1))
         end
     else
         if string.match(n, "^%d+$") ~= nil then
