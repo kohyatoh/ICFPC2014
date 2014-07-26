@@ -144,6 +144,16 @@ local function tree_to_ops (n, context)
                 table.extend(fns, _fns)
             end
             table.insert(ops, string.format("  ST %d %d", a, b))
+        elseif head == "list" then
+            for i, v in ipairs(n) do
+                local _ops, _fns = tree_to_ops(v, context)
+                table.extend(ops, _ops)
+                table.extend(fns, _fns)
+            end
+            table.insert(ops, "  LDC 0")
+            for i, v in ipairs(n) do
+                table.insert(ops, "  CONS")
+            end
         else
             error("unknown head: " .. head)
         end
