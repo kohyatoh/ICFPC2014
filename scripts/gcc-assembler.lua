@@ -1,6 +1,6 @@
 -- GCC language assembler
 
-local STRIP_COMMENTS = false
+local STRIP_COMMENTS = true
 
 local lineno = 0
 local labels = {}

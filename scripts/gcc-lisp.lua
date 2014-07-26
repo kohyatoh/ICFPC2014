@@ -160,6 +160,25 @@ local function tree_to_ops (n, context)
                 table.extend(ops, _ops)
                 table.extend(fns, _fns)
             end
+        elseif head == "while" then
+            local b = table.remove(n, 1)
+            local beg_label = new_label()
+            local mid_label = new_label()
+            local end_label = new_label()
+            local opsb, fnsb = tree_to_ops(b, context)
+            table.insert(ops, beg_label .. ":")
+            table.extend(ops, opsb)
+            table.extend(fns, fnsb)
+            table.insert(ops, "  TSEL " .. mid_label .. " " .. end_label)
+            table.insert(ops, mid_label .. ":")
+            for i, v in ipairs(n) do
+                local _ops, _fns = tree_to_ops(v, context)
+                table.extend(ops, _ops)
+                table.extend(fns, _fns)
+            end
+            table.insert(ops, "  LDC 0")
+            table.insert(ops, "  TSEL 0 " .. beg_label)
+            table.insert(ops, end_label .. ":")
         else
             error("unknown head: " .. head)
         end
