@@ -1,0 +1,125 @@
+INT 3
+INT 6
+MOV [4] , b
+
+MOV [100] , [4]
+ADD [100] , 1
+JLT 7 , [100] , 4
+MOV [100] , 0
+
+ADD [200] , 1
+INT 3
+ADD a , 1
+MUL a , 10
+JLT 92 , [200] , a
+
+INT 8
+
+INT 3
+INT 5
+MOV [0] , a
+MOV [1] , b
+INT 1
+MOV [2] , a
+MOV [3] , b
+
+MOV [101] , 0
+
+
+JEQ 35 , 2 , [4]
+MOV a , [0]
+MOV b , [1]
+SUB b , 1
+INT 7
+JEQ 35 , 0 , a
+MOV a , [0]
+MOV b , [1]
+SUB b , 1
+MOV c , 32
+JEQ 78 , 0 , 0
+
+JLT 35 , a , [101]
+MOV [100] , 0
+MOV [101] , a
+
+
+
+JEQ 49 , 3 , [4]
+MOV a , [0]
+MOV b , [1]
+ADD a , 1
+INT 7
+JEQ 49 , 0 , a
+MOV a , [0]
+MOV b , [1]
+ADD a , 1
+MOV c , 46
+JEQ 78 , 0 , 0
+
+JLT 49 , a , [101]
+MOV [100] , 1
+MOV [101] , a
+
+
+
+JEQ 63 , 0 , [4]
+MOV a , [0]
+MOV b , [1]
+ADD b , 1
+INT 7
+JEQ 63 , 0 , a
+MOV a , [0]
+MOV b , [1]
+ADD b , 1
+MOV c , 60
+JEQ 78 , 0 , 0
+
+JLT 63 , a , [101]
+MOV [100] , 2
+MOV [101] , a
+
+
+
+JEQ 92 , 2 , [4]
+MOV a , [0]
+MOV b , [1]
+SUB a , 1
+INT 7
+JEQ 92 , 0 , a
+MOV a , [0]
+MOV b , [1]
+SUB a , 1
+MOV c , 74
+JEQ 78 , 0 , 0
+
+JLT 92 , a , [101]
+MOV [100] , 3
+MOV [101] , a
+JEQ 92 , 0 , 0
+
+
+
+JLT 81 , a , [2]
+SUB a , [2]
+JEQ 84 , 0 , 0
+
+MOV f , [2]
+SUB f , a
+MOV a , f
+
+
+JLT 87 , b , [3]
+SUB b , [3]
+JEQ 90 , 0 , 0
+
+MOV f , [3]
+SUB f , b
+MOV b , f
+
+
+ADD a , b
+MOV PC , c
+
+
+MOV a , [100]
+INT 0
