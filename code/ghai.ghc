@@ -1,0 +1,125 @@
+INT 3
+INT 6
+MOV [4] b
+
+MOV [100] [4]
+ADD [100] 1
+JLT Lini [100] 4
+MOV [100] 0
+Lini:
+ADD [200] 1
+INT 3
+ADD a 1
+MUL a 10
+JLT Lend [200] a
+
+INT 8
+
+INT 3
+INT 5
+MOV [0] a
+MOV [1] b
+INT 1
+MOV [2] a
+MOV [3] b
+
+MOV [101] 0
+
+Lup:
+JEQ Lright 2 [4]
+MOV a [0]
+MOV b [1]
+SUB b 1
+INT 7
+JEQ Lright 0 a
+MOV a [0]
+MOV b [1]
+SUB b 1
+MOV c Lup1
+JEQ Ldis 0 0
+Lup1:
+JLT Lright a [101]
+MOV [100] 0
+MOV [101] a
+
+
+Lright:
+JEQ Ldown 3 [4]
+MOV a [0]
+MOV b [1]
+ADD a 1
+INT 7
+JEQ Ldown 0 a
+MOV a [0]
+MOV b [1]
+ADD a 1
+MOV c Lright1
+JEQ Ldis 0 0
+Lright1:
+JLT Ldown a [101]
+MOV [100] 1
+MOV [101] a
+
+
+Ldown:
+JEQ Lleft 0 [4]
+MOV a [0]
+MOV b [1]
+ADD b 1
+INT 7
+JEQ Lleft 0 a
+MOV a [0]
+MOV b [1]
+ADD b 1
+MOV c Ldown1
+JEQ Ldis 0 0
+Ldown1:
+JLT Lleft a [101]
+MOV [100] 2
+MOV [101] a
+
+
+Lleft:
+JEQ Lend 2 [4]
+MOV a [0]
+MOV b [1]
+SUB a 1
+INT 7
+JEQ Lend 0 a
+MOV a [0]
+MOV b [1]
+SUB a 1
+MOV c Lleft1
+JEQ Ldis 0 0
+Lleft1:
+JLT Lend a [101]
+MOV [100] 3
+MOV [101] a
+JEQ Lend 0 0
+
+
+Ldis:
+JLT Ldis1 a [2]
+SUB a [2]
+JEQ Ldis2 0 0
+Ldis1:
+MOV f [2]
+SUB f a
+MOV a f
+
+Ldis2:
+JLT Ldis3 b [3]
+SUB b [3]
+JEQ Ldis4 0 0
+Ldis3:
+MOV f [3]
+SUB f b
+MOV b f
+
+Ldis4:
+ADD a b
+MOV PC c
+
+Lend:
+MOV a [100]
+INT 0
