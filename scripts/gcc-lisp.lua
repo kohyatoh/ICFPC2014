@@ -109,6 +109,30 @@ local function tree_to_ops (n, context)
             table.insert(ops, "  LDF " .. label)
             table.insert(ops, "  AP " .. tostring(#names))
             table.remove(context)
+        elseif head == "letrec" then
+            local vars = table.remove(n, 1)
+            local names = {}
+            for i, vars in ipairs(vars) do
+                table.insert(names, vars[1])
+            end
+            table.insert(context, names)
+            table.insert(ops, "  DUM " .. tostring(#names))
+            for i, vars in ipairs(vars) do
+                local _ops, _fns = tree_to_ops(vars[2], context)
+                table.extend(ops, _ops)
+                table.extend(fns, _fns)
+            end
+            local label = new_label()
+            local body = { label .. ":" }
+            for i, v in ipairs(n) do
+                local _ops, _fns = tree_to_ops(v, context)
+                table.extend(body, _ops)
+                table.extend(fns, _fns)
+            end
+            table.insert(body, "  RTN")
+            table.extend(fns, body)
+            table.insert(ops, "  LDF " .. label)
+            table.insert(ops, "  RAP " .. tostring(#names))
         elseif head == "lambda" then
             local names = table.remove(n, 1)
             table.insert(context, names)
